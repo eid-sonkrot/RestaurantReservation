@@ -11,6 +11,6 @@ namespace RestaurantReservation.Db
         public string description { get; set; }
         public double price { get; set; }
         public Restaurant restaurant { get; set; }
-        public OrderItem orderItem { get; set; }
+        public OrderItem orderItem { get; set; } 
     }
 }
