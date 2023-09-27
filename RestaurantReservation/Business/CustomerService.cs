@@ -41,7 +41,7 @@ namespace RestaurantReservation.Business
                 _dbContext.Customers.Add(newCustomer);
                 await _dbContext.SaveChangesAsync();
 
-                Log.Information("Customer {CustomerId} created successfully", newCustomer.CustomerId);
+                Log.Information("Customer {CustomerId} created successfully", newCustomer.customer_id);
             }
             catch (Exception ex)
             {
