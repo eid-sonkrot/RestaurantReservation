@@ -46,7 +46,6 @@ namespace RestaurantReservation
                 .Where(type => typeof(IProfile).IsAssignableFrom(type) && !type.IsInterface).
                 Select(Activator.CreateInstance)
                .OfType<IProfile>();
-            ;
             // Instantiate and configure each profile
             foreach (var profile in profileTypes)
             {

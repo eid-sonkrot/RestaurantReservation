@@ -106,6 +106,23 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
+        public async Task<List<EmployeeDTO>> ListManagersAsync()
+        {
+            try
+            {
+                var managers = await _dbContext.Employees
+                    .Where(employee => employee.position == EmployeePosition.Manager)
+                    .ToListAsync();
+
+                Log.Information("Retrieved all managers successfully");
+                return _mapper.Map<List<EmployeeDTO>>(managers);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error while fetching managers");
+                throw;
+            }
+        }
     }
 
 }
