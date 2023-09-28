@@ -28,35 +28,30 @@ namespace RestaurantReservation.Db
                 .OwnsOne(r => r.opening_hours)
                 .Property(oh => oh.StartTime)
                 .HasColumnName("StartTime"); 
-
             modelBuilder.Entity<Restaurant>()
                 .OwnsOne(r => r.opening_hours)
                 .Property(oh => oh.EndTime)
                 .HasColumnName("EndTime");
             modelBuilder.Entity<Reservation>()
-    .HasOne(r => r.customer)
-    .WithMany(c => c.Reservations)
-    .OnDelete(DeleteBehavior.Restrict);
-
+             .HasOne(r => r.customer)
+               .WithMany(c => c.Reservations)
+               .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.restaurant)
                 .WithMany(r => r.reservations)
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.table)
                 .WithMany(t => t.Reservations)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Reservation>()
-    .HasOne(r => r.customer)
-    .WithMany(c => c.Reservations)
-    .OnDelete(DeleteBehavior.Restrict);
-
+            .HasOne(r => r.customer)
+            .WithMany(c => c.Reservations)
+            .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.restaurant)
                 .WithMany(r => r.reservations)
                 .OnDelete(DeleteBehavior.Restrict);
-
             modelBuilder.Entity<Reservation>()
                 .HasOne(r => r.table)
                 .WithMany(t => t.Reservations)
