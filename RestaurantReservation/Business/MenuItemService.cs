@@ -106,5 +106,26 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
+        public async Task<List<MenuItemDTO>> ListOrderedMenuItemsAsync(int reservationId)
+        {
+            try
+            {
+                var orderedMenuItems = await _dbContext.Orders
+                    .Where(o => o.reservation_id == reservationId)
+                    .SelectMany(o => o.items.Select(it => it.item))
+                    .ToListAsync();
+                var orderedMenuItemsDTO = _mapper.Map<List<MenuItemDTO>>(orderedMenuItems);
+
+                return orderedMenuItemsDTO;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while listing ordered menu items for reservation {ReservationId}", reservationId);
+
+                // You can choose to rethrow the exception or handle it as needed.
+                throw;
+            }
+        }
+
     }
 }

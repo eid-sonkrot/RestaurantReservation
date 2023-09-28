@@ -13,7 +13,7 @@ namespace RestaurantReservation
 {
     class RestaurantReservation
     {
-        public RestaurantReservationDbContext restaurantReservationDbContext { get; set; }
+        public RestaurantReservationDbContext restaurantReservationDbContext = new RestaurantReservationDbContext();
         public Mapper mapper { get; set; }
         static async Task Main(string[] args)
         {

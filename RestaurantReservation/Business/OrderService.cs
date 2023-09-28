@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.ApplicationLayer;
 using RestaurantReservation.Db;
+using Serilog;
 
 namespace RestaurantReservation.Business
 {
@@ -52,6 +53,21 @@ namespace RestaurantReservation.Business
             var orders = await _dbContext.Orders.ToListAsync();
 
             return _mapper.Map<List<OrderDTO>>(orders);
+        }
+        public async Task<List<OrderDTO>> ListOrdersAsync(int reservationId)
+        {
+            try
+            {
+                var orders =await _dbContext.Orders.Where(o=>o.reservation_id==reservationId).ToListAsync();
+                var orderDTOs = _mapper.Map<List<OrderDTO>>(orders);
+
+                return orderDTOs;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while listing orders and menu items for reservation {ReservationId}", reservationId);
+                throw;
+            }
         }
     }
 }

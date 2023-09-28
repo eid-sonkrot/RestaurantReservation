@@ -32,7 +32,6 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-
         public async Task CreateEmployeeAsync(EmployeeDTO employeeDTO)
         {
             try
@@ -49,7 +48,6 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-
         public async Task UpdateEmployeeAsync(EmployeeDTO employeeDTO)
         {
             try
@@ -69,7 +67,6 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-
         public async Task DeleteEmployeeAsync(int employeeId)
         {
             try
@@ -89,7 +86,6 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-
         public async Task<List<EmployeeDTO>> GetAllEmployeesAsync()
         {
             try
@@ -123,6 +119,32 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-    }
+        public async Task<double> CalculateAverageOrderAmountAsync(int employeeId)
+        {
+            try
+            {
+                var orders = await _dbContext.Orders
+                    .Where(o => o.employee_id == employeeId)
+                    .ToListAsync();
 
+                if (orders.Any())
+                {
+                    var totalAmount = orders.Sum(o => o.total_amount);
+                    var averageAmount = totalAmount / orders.Count;
+
+                    return averageAmount;
+                }
+                else
+                {
+                    // Handle the case where the employee has no orders
+                    return 0.0; 
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while calculating average order amount for employee {EmployeeId}", employeeId);
+                throw;
+            }
+        }
+    }
 }

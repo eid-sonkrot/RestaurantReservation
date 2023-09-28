@@ -103,5 +103,21 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
+        public async Task<List<ReservationDTO>> GetReservationsByCustomerAsync(int customerId)
+        {
+            try
+            {
+                var reservations = await _dbContext.Reservations
+                    .Where(r => r.customer_id == customerId)
+                    .ToListAsync();
+
+                return _mapper.Map<List<ReservationDTO>>(reservations);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while fetching reservations for customer {CustomerId}", customerId);
+                throw;
+            }
+        }
     }
 }
