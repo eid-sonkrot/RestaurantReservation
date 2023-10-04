@@ -1,4 +1,5 @@
 ﻿using Microsoft;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -67,15 +68,21 @@ namespace RestaurantReservation.Db
             modelBuilder.HasDbFunction(() => CalculateTotalRevenue(default))
             .HasName("CalculateTotalRevenue");
         }
-        public double CalculateTotalRevenue(int restaurantId)
+        public async Task<double> CalculateTotalRevenue(int restaurantId)
         {
-            var totalRevenue = Restaurants
+            var totalRevenue = await Restaurants
                 .Where(r => r.restaurant_id == restaurantId)
                 .SelectMany(r => r.reservations)
                 .Select(r=>r.orders)
-                .Sum(o => o.total_amount);
+                .SumAsync(o => o.total_amount); 
 
             return totalRevenue;
+        }
+        public async Task<List<Customer>> FindCustomersWithLargePartiesAsync(int minPartySize)
+        {
+            var minPartySizeParam = new SqlParameter("@minPartySize", minPartySize);
+
+            return await Customers.FromSqlRaw("EXEC FindCustomersWithLargeParties @minPartySize", minPartySizeParam).ToListAsync();
         }
         public DbSet<Reservation> Reservations { set; get; }
         public DbSet<Order> Orders { set; get; }

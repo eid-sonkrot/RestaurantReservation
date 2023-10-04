@@ -103,11 +103,11 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-        public  double CalculateTotalRevenue(int restaurantId)
+        public async Task<double> CalculateTotalRevenue(int restaurantId)
         {
             try
             {
-                var totalRevenue = _dbContext
+                var totalRevenue =await _dbContext
                 .CalculateTotalRevenue(restaurantId);
 
                 Log.Information(@"Total Revenue of restaurant {restaurantId} is {totalRevenue} ",restaurantId,totalRevenue);

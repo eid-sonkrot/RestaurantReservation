@@ -11,6 +11,17 @@ namespace RestaurantReservation.Db.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.Sql(@"
+                                 CREATE PROCEDURE FindCustomersWithLargeParties
+                                 @minPartySize INT
+                                 AS
+                                BEGIN
+                                    SELECT c.*
+                                    FROM Customers c
+                                    INNER JOIN Reservations r ON c.CustomerId = r.CustomerId
+                                    WHERE r.PartySize > @minPartySize;
+                                END;
+                                ");
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new

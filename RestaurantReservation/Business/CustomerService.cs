@@ -106,6 +106,22 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
+        public async Task<List<CustomerDTO>> FindCustomersWithLargePartiesAsync(int minPartySize)
+        {
+            try
+            {
+                var customers = await _dbContext.FindCustomersWithLargePartiesAsync(minPartySize);
+                var customerDTOs = _mapper.Map<List<CustomerDTO>>(customers);
+
+                Log.Information("Retrieved all customers with larger party size than {minPartySize}", minPartySize);
+                return customerDTOs;
+            }
+            catch(Exception ex)
+            {
+                Log.Error(ex, "Error while fetching all customers with larger party size than {minPartySize}", minPartySize);
+                throw;
+            }
+        }
     }
 
 }
