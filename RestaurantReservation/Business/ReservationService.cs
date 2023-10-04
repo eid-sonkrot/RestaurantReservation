@@ -120,13 +120,5 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
-        public async Task<double> CalculateTotalRevenueAsync(int restaurantId)
-        {
-            var totalRevenue = await _dbContext
-                .Database
-                .ExecuteSqlRawAsync("SELECT dbo.CalculateTotalRevenue({0})", restaurantId);
-
-            return totalRevenue;
-        }
     }
 }

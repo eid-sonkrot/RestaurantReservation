@@ -64,8 +64,19 @@ namespace RestaurantReservation.Db
                 entity.ToView("EmployeeRestaurantView"); 
                 entity.HasNoKey(); 
             });
+            modelBuilder.HasDbFunction(() => CalculateTotalRevenue(default))
+            .HasName("CalculateTotalRevenue");
         }
-       
+        public double CalculateTotalRevenue(int restaurantId)
+        {
+            var totalRevenue = Restaurants
+                .Where(r => r.restaurant_id == restaurantId)
+                .SelectMany(r => r.reservations)
+                .Select(r=>r.orders)
+                .Sum(o => o.total_amount);
+
+            return totalRevenue;
+        }
         public DbSet<Reservation> Reservations { set; get; }
         public DbSet<Order> Orders { set; get; }
         public DbSet<Restaurant> Restaurants {set;get;}

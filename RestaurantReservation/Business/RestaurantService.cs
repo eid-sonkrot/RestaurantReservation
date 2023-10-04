@@ -103,5 +103,21 @@ namespace RestaurantReservation.Business
                 throw;
             }
         }
+        public  double CalculateTotalRevenue(int restaurantId)
+        {
+            try
+            {
+                var totalRevenue = _dbContext
+                .CalculateTotalRevenue(restaurantId);
+
+                Log.Information(@"Total Revenue of restaurant {restaurantId} is {totalRevenue} ",restaurantId,totalRevenue);
+                return totalRevenue;
+            }
+            catch(Exception ex) 
+            {
+                Log.Error(ex, "Error while get Revenue of restaurant");
+                throw;
+            }
+        }
     }
 }

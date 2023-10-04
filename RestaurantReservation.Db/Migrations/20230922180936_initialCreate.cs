@@ -11,21 +11,6 @@ namespace RestaurantReservation.Db.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(
-             @"
-        CREATE FUNCTION CalculateTotalRevenue (@restaurantId INT)
-        RETURNS DECIMAL(10, 2)
-        AS
-        BEGIN
-            DECLARE @totalRevenue DECIMAL(10, 2);
-
-            SELECT @totalRevenue = SUM(order_total)
-            FROM [Order]
-            WHERE restaurant_id = @restaurantId;
-
-            RETURN ISNULL(@totalRevenue, 0);
-        END;
-        ");
             migrationBuilder.CreateTable(
                 name: "Customers",
                 columns: table => new
