@@ -1,5 +1,6 @@
 ﻿using Microsoft;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RestaurantReservation.Db
 {
@@ -64,7 +65,7 @@ namespace RestaurantReservation.Db
                 entity.HasNoKey(); 
             });
         }
-
+       
         public DbSet<Reservation> Reservations { set; get; }
         public DbSet<Order> Orders { set; get; }
         public DbSet<Restaurant> Restaurants {set;get;}

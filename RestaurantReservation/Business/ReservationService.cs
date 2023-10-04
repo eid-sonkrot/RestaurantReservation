@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.ApplicationLayer;
 using RestaurantReservation.Db;
@@ -118,6 +119,14 @@ namespace RestaurantReservation.Business
                 Log.Error(ex, "Error occurred while fetching reservations for customer {CustomerId}", customerId);
                 throw;
             }
+        }
+        public async Task<double> CalculateTotalRevenueAsync(int restaurantId)
+        {
+            var totalRevenue = await _dbContext
+                .Database
+                .ExecuteSqlRawAsync("SELECT dbo.CalculateTotalRevenue({0})", restaurantId);
+
+            return totalRevenue;
         }
     }
 }
