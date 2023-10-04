@@ -1,11 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
-using RestaurantReservation.ApplicationLayer;
 using RestaurantReservation.ApplicationLayer.Profile;
-using RestaurantReservation.Business;
 using RestaurantReservation.Db;
 using Serilog;
-using Serilog.Core;
 using Serilog.Events;
 using System.Reflection;
 

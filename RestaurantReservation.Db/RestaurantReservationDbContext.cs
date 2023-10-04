@@ -1,8 +1,5 @@
 ﻿using Microsoft;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Configuration;
-using System.Reflection.Metadata;
 
 namespace RestaurantReservation.Db
 {
@@ -10,7 +7,7 @@ namespace RestaurantReservation.Db
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=RestaurantReservationCore;";//ConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
+            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=RestaurantReservationCore;";
             optionsBuilder.UseSqlServer(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -56,6 +53,16 @@ namespace RestaurantReservation.Db
                 .HasOne(r => r.table)
                 .WithMany(t => t.Reservations)
                 .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<ReservationView>(entity =>
+            {
+                entity.ToView("ReservationView"); 
+                entity.HasNoKey(); 
+            });
+            modelBuilder.Entity<EmployeeRestaurantView>(entity =>
+            {
+                entity.ToView("EmployeeRestaurantView"); 
+                entity.HasNoKey(); 
+            });
         }
 
         public DbSet<Reservation> Reservations { set; get; }
@@ -65,6 +72,8 @@ namespace RestaurantReservation.Db
         public DbSet <OrderItem> OrderItems { set; get; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<Customer> Customers { set; get; }
-        public DbSet<Employee> Employees { set; get; } 
+        public DbSet<Employee> Employees { set; get; }
+        public DbSet<ReservationView> ReservationViews { get; set; }
+        public DbSet<EmployeeRestaurantView> EmployeeRestaurantViews { get; set; }
     }
 }
