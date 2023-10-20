@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using RestaurantReservation.ApplicationLayer.Profile;
-using RestaurantReservation.Db;
 using Serilog;
 using Serilog.Events;
 using System.Reflection;
@@ -9,7 +8,6 @@ namespace RestaurantReservation.ApplicationLayer
 {
     class RestaurantReservation
     {
-        public RestaurantReservationDbContext restaurantReservationDbContext = new RestaurantReservationDbContext();
         public Mapper mapper { get; set; }
         static async Task Main(string[] args)
         {
