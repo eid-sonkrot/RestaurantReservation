@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
+using RestaurantReservation.Db.EntityClass;
 
 namespace RestaurantReservation.Db
 {

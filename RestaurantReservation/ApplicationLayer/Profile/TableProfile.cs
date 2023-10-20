@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using RestaurantReservation.Db;
+using RestaurantReservation.ApplicationLayer.DTO;
+using RestaurantReservation.Db.EntityClass;
 
 namespace RestaurantReservation.ApplicationLayer.Profile
 {

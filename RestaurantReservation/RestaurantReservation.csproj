@@ -20,8 +20,4 @@
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\RestaurantReservation.Db\RestaurantReservation.Db.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -2,6 +2,7 @@
 using System.Data.Common;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.EntityClass;
 using Serilog;
 
 namespace RestaurantReservation.Db
