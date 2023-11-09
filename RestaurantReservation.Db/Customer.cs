@@ -1,15 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantReservation.Db
 {
     public class Customer
     {
         [Key]
-        public int customer_id { get; set; }
-        public string first_name { get; set; } 
-        public string last_name { get; set;}
-        public string email { get; set; }
-        public string phone { get; set; }
-        public ICollection<Reservation> Reservations { get; set; }
+        [Column("customer_id")]
+        public int CustomerId { get; set; }
+        [Column("first_name")]
+        public string FirstName { get; set; }
+        [Column("last_name")]
+        public string LastName { get; set;}
+        [Column("email")]
+        public string Email { get; set; }
+        [Column("phone")]
+        public string Phone { get; set; }
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     }
 }

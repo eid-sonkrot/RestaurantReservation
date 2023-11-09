@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-public record OpeningHours
+namespace RestaurantReservation.Db
 {
-    public TimeSpan StartTime { get; set; }
-    public TimeSpan EndTime { get; set; }
+    public class OpeningHours
+    {
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
+    }
 }

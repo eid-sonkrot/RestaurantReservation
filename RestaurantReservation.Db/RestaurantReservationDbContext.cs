@@ -1,8 +1,5 @@
-﻿using Microsoft;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Configuration;
-using System.Reflection.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace RestaurantReservation.Db
 {
@@ -10,66 +7,69 @@ namespace RestaurantReservation.Db
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=RestaurantReservationCore;";//ConfigurationManager.ConnectionStrings["MyDbConnection"].ConnectionString;
+            var connectionString = "Server=(localdb)\\MSSQLLocalDB;Database=RestaurantReservationCore;";
             optionsBuilder.UseSqlServer(connectionString);
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<MenuItem>()
-                .HasOne(mi => mi.orderItem)
-                .WithOne(oi => oi.item)
-                .HasForeignKey<OrderItem>(oi => oi.item_id)
+            modelBuilder.Entity<Customer>()
+                .HasMany(e => e.Reservations)
+                .WithOne(e => e.Customer)
+                .HasForeignKey(e => e.CustomerId);
+            modelBuilder.Entity<Reservation>()
+                .HasMany(e => e.Orders)
+                .WithOne(e => e.Reservation)
+                .HasForeignKey(e => e.ReservationId)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Table>()
+                .HasMany(e => e.Reservations)
+                .WithOne(e => e.Table)
+                .HasForeignKey(e=>e.ReservationId)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Order>()
-                .HasOne(e => e.reservation)
-                .WithOne(e=>e.orders)
-                .HasForeignKey<Reservation>();
+                .HasOne(e => e.Item)
+                .WithOne(e => e.Order);
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.Orders)
+                .WithOne(e => e.Employee)
+                .HasForeignKey(e => e.EmployeeId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Restaurant>()
-                .OwnsOne(r => r.opening_hours)
-                .Property(oh => oh.StartTime)
-                .HasColumnName("StartTime"); 
-
+                .HasMany(e => e.Reservations)
+                .WithOne(e => e.Restaurant)
+                .HasForeignKey(e => e.RestaurantId)
+                .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Restaurant>()
-                .OwnsOne(r => r.opening_hours)
-                .Property(oh => oh.EndTime)
-                .HasColumnName("EndTime");
-            modelBuilder.Entity<Reservation>()
-    .HasOne(r => r.customer)
-    .WithMany(c => c.Reservations)
-    .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.restaurant)
-                .WithMany(r => r.reservations)
+                .HasMany(e => e.MenuItems)
+                .WithOne(e => e.Restaurant)
+                .HasForeignKey(e => e.RestaurantId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.table)
-                .WithMany(t => t.Reservations)
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(e => e.Tables)
+                .WithOne(e => e.Restaurant)
+                .HasForeignKey(e => e.RestaurantId).
+                OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Restaurant>()
+                .HasMany(e => e.Employees)
+                .WithOne(e => e.Restaurant)
+                .HasForeignKey(e => e.RestaurantId)
                 .OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Reservation>()
-    .HasOne(r => r.customer)
-    .WithMany(c => c.Reservations)
-    .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.restaurant)
-                .WithMany(r => r.reservations)
+            modelBuilder.Entity<MenuItem>()
+                .HasMany(e => e.OrderItem)
+                .WithOne(e => e.Item)
+                .HasForeignKey(e=>e.ItemId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Reservation>()
-                .HasOne(r => r.table)
-                .WithMany(t => t.Reservations)
-                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Employee>()
+                .Property(e => e.Position)
+                .HasConversion(new EnumToStringConverter<EmployeePosition>());
         }
-
         public DbSet<Reservation> Reservations { set; get; }
-        public DbSet<Order> Orders { set; get; }
-        public DbSet<Restaurant> Restaurants {set;get;}
-        public DbSet<MenuItem> MenuItems { set; get; }     
-        public DbSet <OrderItem> OrderItems { set; get; }
-        public DbSet<Table> Tables { get; set; }
         public DbSet<Customer> Customers { set; get; }
-        public DbSet<Employee> Employees { set; get; } 
+        public DbSet<Restaurant> Restaurants { set; get; }
+        public DbSet<Table> Tables { set; get; }
+        public DbSet<Employee> Employees { set; get; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<MenuItem> MenuItems { get; set; }
     }
 }

@@ -1,14 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RestaurantReservation.Db
 {
     public class Table
     {
         [Key]
-        public int table_id { get; set; }
-        public int restaurant_id { get; set; }
+        [Column("table_id")]
+        public int TableId { get; set; }
+        [Column("restaurant_id")]
+        public int RestaurantId { get; set; }
         public int capacity { get; set; }
-        public ICollection<Reservation> Reservations { get; set; }
-        public Restaurant restaurant { get; set; }
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public Restaurant Restaurant { get; set; }
     }
 }
