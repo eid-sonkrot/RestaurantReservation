@@ -14,10 +14,10 @@ namespace RestaurantReservation.Db
         public string Address { get; set; }
         [Column("phone_number")]
         public string PhoneNumber { get; set; }
-        public ICollection<Reservation> Reservations { get; set; }
-        public ICollection<Table> Tables { get; set; }
-        public ICollection<MenuItem> MenuItems { get; set; }
-        public ICollection<Employee> Employees { get; set; }
+        public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+        public ICollection<Table> Tables { get; set; } = new List<Table>();
+        public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
+        public ICollection<Employee> Employees { get; set; } = new List<Employee>();
 
     }
 }
