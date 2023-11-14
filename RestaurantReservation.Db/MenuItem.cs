@@ -17,6 +17,6 @@ namespace RestaurantReservation.Db
         [Column("price")]
         public double Price { get; set; }
         public Restaurant Restaurant { get; set; }
-        public ICollection<OrderItem> OrderItem { get; set; } = new List<OrderItem>(); 
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>(); 
     }
 }

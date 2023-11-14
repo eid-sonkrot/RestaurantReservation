@@ -51,17 +51,26 @@ namespace RestaurantReservation.Db
         };
         public Seeder()
         {
+            dbContext.Customers.Add(customer);
+            dbContext.Employees.Add(employee);
+            dbContext.MenuItems.Add(menuItem);
+            dbContext.Tables.Add(table);
+            dbContext.Reservations.Add(reservation);
+            dbContext.Restaurants.Add(restaurant);
+            dbContext.Orders.Add(order);
+            dbContext.OrderItems.Add(orderItem);
             customer.Reservations.Add(reservation);
+            reservation.Customer = customer;
             reservation.Orders.Add(order);
             reservation.Restaurant = restaurant;
             reservation.Table = table;
-            table.Restaurant = restaurant;
-            restaurant.Employees.Add(employee);
-            restaurant.MenuItems.Add(menuItem);
-            employee.Orders.Add(order);
-            menuItem.OrderItem.Add(orderItem);
+            menuItem.OrderItems.Add(orderItem);
+            menuItem.Restaurant = restaurant;
             orderItem.Order = order;
-            dbContext.Customers.Add(customer);
+            orderItem.Item = menuItem;
+            restaurant.Employees.Add(employee);
+            restaurant.Tables.Add(table);
+            order.Employee = employee;
             dbContext.SaveChanges();
         }
     }

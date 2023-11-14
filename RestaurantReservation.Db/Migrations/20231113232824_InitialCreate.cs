@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace RestaurantReservation.Db.Migrations
 {
     /// <inheritdoc />
-    public partial class ResturantDatabase : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,7 @@ namespace RestaurantReservation.Db.Migrations
                         column: x => x.restaurant_id,
                         principalTable: "Restaurants",
                         principalColumn: "restaurant_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,7 +85,7 @@ namespace RestaurantReservation.Db.Migrations
                         column: x => x.restaurant_id,
                         principalTable: "Restaurants",
                         principalColumn: "restaurant_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,14 +105,15 @@ namespace RestaurantReservation.Db.Migrations
                         column: x => x.restaurant_id,
                         principalTable: "Restaurants",
                         principalColumn: "restaurant_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Reservations",
                 columns: table => new
                 {
-                    reservation_id = table.Column<int>(type: "int", nullable: false),
+                    reservation_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     reservation_date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     party_size = table.Column<int>(type: "int", nullable: false),
                     customer_id = table.Column<int>(type: "int", nullable: false),
@@ -133,10 +134,10 @@ namespace RestaurantReservation.Db.Migrations
                         column: x => x.restaurant_id,
                         principalTable: "Restaurants",
                         principalColumn: "restaurant_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reservations_Tables_reservation_id",
-                        column: x => x.reservation_id,
+                        name: "FK_Reservations_Tables_table_id",
+                        column: x => x.table_id,
                         principalTable: "Tables",
                         principalColumn: "table_id",
                         onDelete: ReferentialAction.Restrict);
@@ -161,7 +162,7 @@ namespace RestaurantReservation.Db.Migrations
                         column: x => x.employee_id,
                         principalTable: "Employees",
                         principalColumn: "employee_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Orders_Reservations_reservation_id",
                         column: x => x.reservation_id,
@@ -188,13 +189,13 @@ namespace RestaurantReservation.Db.Migrations
                         column: x => x.item_id,
                         principalTable: "MenuItems",
                         principalColumn: "item_id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_OrderItems_Orders_order_id",
                         column: x => x.order_id,
                         principalTable: "Orders",
                         principalColumn: "order_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -237,6 +238,11 @@ namespace RestaurantReservation.Db.Migrations
                 name: "IX_Reservations_restaurant_id",
                 table: "Reservations",
                 column: "restaurant_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_table_id",
+                table: "Reservations",
+                column: "table_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tables_restaurant_id",
