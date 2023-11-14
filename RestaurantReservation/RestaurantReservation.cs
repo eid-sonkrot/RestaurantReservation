@@ -1,6 +1,12 @@
-﻿class RestaurantReservation
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db;
+
+namespace RestaurantReservation
 {
-    static void Main(string[] args)
+    class RestaurantReservation
     {
+        static void Main(string[] args)
+        {
+        }
     }
 }
